@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>העגלה שלי</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      direction: rtl;
+    }
+
+    .cart-item {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cart-item img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .clear-cart, .back-button, .buy-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .clear-cart {
+      background-color: crimson;
+      color: white;
+    }
+
+    .clear-cart:hover {
+      background-color: darkred;
+    }
+
+    .back-button {
+      background-color: black;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .back-button:hover {
+      background-color: #333;
+    }
+
+    .buy-button {
+      background-color: green;
+      color: white;
+    }
+
+    .buy-button:hover {
+      background-color: darkgreen;
+    }
+
+    .checkout-form {
+      margin-top: 40px;
+      max-width: 400px;
+    }
+
+    .checkout-form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .checkout-form input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .total-price {
+      font-weight: bold;
+      margin-top: 30px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='homepage-latinos-outlet.html'">⬅ חזור לחנות</button>
+
+  <h1>🛒 העגלה שלך</h1>
+  <div id="cart-container"></div>
+  <button class="clear-cart" onclick="clearCart()">🗑️ נקה עגלה</button>
+
+  <div class="total-price" id="total-price"></div>
+
+  <div class="checkout-form">
+    <h2>🧾 פרטי הזמנה</h2>
+
+    <form action="https://formsubmit.co/ilaylevin0911@gmail.com" method="POST">
+      <input type="hidden" name="_redirect" value="https://latinos-outlet.com/thankyou.html">
+
+      <label for="name">שם מלא</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">אימייל</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">טלפון</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="city">עיר</label>
+      <input type="text" id="city" name="city" required>
+
+      <label for="street">רחוב</label>
+      <input type="text" id="street" name="street" required>
+
+      <input type="hidden" name="products" id="productsInput">
+
+      <button class="buy-button" type="submit">✅ קנה עכשיו</button>
+    </form>
+  </div>
+
+  <script>
+    const cartContainer = document.getElementById("cart-container");
+    const totalPriceEl = document.getElementById("total-price");
+    const productsInput = document.getElementById("productsInput");
+
+    function renderCart() {
+      cartContainer.innerHTML = "";
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>העגלה שלך ריקה.</p>";
+        totalPriceEl.innerText = "";
+        return;
+      }
+
+      let total = 0;
+      let productsSummary = [];
+
+      cart.forEach(product => {
+        const item = document.createElement("div");
+        item.className = "cart-item";
+        item.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <div class="cart-item-details">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        `;
+        cartContainer.appendChild(item);
+
+        // סך הכל
+        const price = parseFloat(product.price.replace("₪", "").replace(",", ""));
+        total += price;
+
+        productsSummary.push(`${product.name} - ${product.price}`);
+      });
+
+      totalPriceEl.innerText = `💰 המחיר שלך הוא: ₪${total.toFixed(2)}`;
+      productsInput.value = productsSummary.join("\n");
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

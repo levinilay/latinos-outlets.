@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>מוצר - חליפת לבנה</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    .back {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 9px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .img {
+      margin-left: 100px;
+    }
+
+    .add-to-cart {
+      display: block;
+      margin-left: 100px;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: orange;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-to-cart:hover {
+      background-color: darkorange;
+    }
+
+    .added-product {
+      margin-left: 100px;
+      margin-top: 30px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      width: 500px;
+      border-radius: 10px;
+    }
+
+    .added-product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .added-product h3,
+    .added-product p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back" onclick="window.location.href='homepage-latinos-outlet.html'">BACK</button>
+
+  <img src="IMG_7458-scaled-e1750401751170-300x300.jpg" height="500" width="500" alt="Product image" class="img">
+
+  <button class="add-to-cart" onclick="addToCart()">הוסף לעגלה</button>
+
+  <div id="product-display"></div>
+
+  <script>
+    function addToCart() {
+      const product = {
+        name: "חליפת לבנה osher",
+        price: "200.00 ₪",
+        image: "IMG_7458-scaled-e1750401751170-300x300.jpg"
+      };
+
+      // קבלת עגלה קיימת או יצירת עגלה חדשה
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // הוספת המוצר לעגלה
+      cart.push(product);
+
+      // שמירה חזרה ל-localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      // הצגת המוצר בעמוד
+      const display = document.getElementById("product-display");
+      display.innerHTML = `
+        <div class="added-product">
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.price}</p>
+          <p>✔️ נוסף לעגלה בהצלחה!</p>
+        </div>
+      `;
+    }
+  </script>
+<p>לבנה osher חליפת</p>
+<p>200.00 ₪</p>
+</body>
+</html>
